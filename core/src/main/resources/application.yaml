@@ -1,0 +1,9 @@
+server:
+  port: 8099
+api:
+    base-path: /api/v1
+spring:
+  main:
+    lazy-initialization: false
+  profiles:
+    active: dev
