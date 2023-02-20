@@ -2,7 +2,9 @@ package com.inventory.management.interceptor;
 
 
 import com.inventory.management.annotation.ResponseWrapper;
+import com.inventory.management.util.LocaleHelper;
 import com.inventory.management.vo.response.GenericResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.Ordered;
@@ -25,7 +27,10 @@ import static com.inventory.management.interceptor.ErrorResponseInterceptor.ERRO
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 @Slf4j
+@RequiredArgsConstructor
 public class SuccessResponseInterceptor implements ResponseBodyAdvice<Object> {
+
+    private final LocaleHelper localeHelper;
 
 
     @Override
@@ -75,6 +80,7 @@ public class SuccessResponseInterceptor implements ResponseBodyAdvice<Object> {
         if (methodWrapper != null) {
             message = methodWrapper.message();
         }
+        message = localeHelper.resolveSubject(message);
         return message;
     }
 

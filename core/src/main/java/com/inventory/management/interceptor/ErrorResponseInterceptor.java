@@ -1,5 +1,6 @@
 package com.inventory.management.interceptor;
 
+import com.inventory.management.util.LocaleHelper;
 import com.inventory.management.vo.problem.CustomApiException;
 import com.inventory.management.vo.problem.ValidationException;
 import com.inventory.management.vo.problem.ValidatorError;
@@ -30,7 +31,8 @@ public class ErrorResponseInterceptor {
     //TODO internationalize this message
     final public static String ERROR_MESSAGE = "A problem has occurred";
 
-    private final MessageSource messageSource;
+    private final LocaleHelper localeHelper;
+
 
     @ExceptionHandler
     public ResponseEntity<GenericResponse<ErrorResponse>> handleAllException(Exception ex, Locale locale) {
@@ -41,7 +43,7 @@ public class ErrorResponseInterceptor {
 
         GenericResponse<ErrorResponse> response = new GenericResponse<>();
         response.setStatus(GenericResponse.FAILED_KEY);
-        response.setMessage(String.format("%s at entity", ERROR_MESSAGE));
+        response.setMessage(localeHelper.resolveSubject(ERROR_MESSAGE, locale));
         response.setData(errorResponse);
 
         log.info("END: writing generic error response to object..");
@@ -63,7 +65,7 @@ public class ErrorResponseInterceptor {
         ErrorResponse response = new ErrorResponse();
         String message;
         if (ex.isLocaleException()) {
-            message = messageSource.getMessage(ex.getLocaleKey(), ex.getArguments(), locale);
+            message = localeHelper.resolveSubject(ex.getLocaleKey(), locale, ex.getArguments());
         } else {
             message = ex.getMessage();
         }
@@ -75,7 +77,7 @@ public class ErrorResponseInterceptor {
     private ErrorResponse problemDelegator(ValidationException ex, Locale locale) {
         ErrorResponse response = new ErrorResponse();
         Function<ValidatorError, String> localeMapper = validatorError ->
-                messageSource.getMessage(validatorError.getErrorKey(), validatorError.getArguments(), locale);
+                localeHelper.resolveSubject(validatorError.getErrorKey(), locale, validatorError.getArguments());
         List<String> messages = CollectionUtils.isEmpty(ex.getValidatorErrors()) ? List.of()
                 : ex.getValidatorErrors().stream().filter(Objects::nonNull).map(localeMapper).collect(Collectors.toList());
         response.setStatusCode((short) HttpStatus.UNPROCESSABLE_ENTITY.value());

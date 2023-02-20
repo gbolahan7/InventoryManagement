@@ -6,5 +6,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface ResponseWrapper {
-    String message() default "Payload Successful";
+    String message() default "response.success";
 }

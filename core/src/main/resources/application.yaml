@@ -3,6 +3,8 @@ server:
 api:
     base-path: /api/v1
 spring:
+  messages:
+    basename: i18n/messages
   main:
     lazy-initialization: false
   profiles:
