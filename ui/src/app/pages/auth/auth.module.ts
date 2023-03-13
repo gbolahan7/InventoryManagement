@@ -26,6 +26,7 @@ import {AuthService} from "./service/auth.service";
 import {AuthGuard} from "./service/auth-guard.services";
 import {RegisterComponent} from "./component/register/register.component";
 import {LogoutComponent} from "./component/logout/logout.component";
+import {RoleGuard} from "./service/role-guard.services";
 
 export function filterInterceptorRequest(req: HttpRequest<any>) {
   return ['http://localhost:8099/api/auth/',].some(url => req.url.includes(url));
@@ -71,7 +72,8 @@ export class AuthModule {
         AuthTokenWrapper,
         TokenService,
         AuthService,
-        AuthGuard
+        AuthGuard,
+        RoleGuard
       ],
     };
   }

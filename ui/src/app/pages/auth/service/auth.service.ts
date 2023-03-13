@@ -26,6 +26,8 @@ export class AuthService {
       map((token: AuthToken) => {
         let user: AuthUser =  new AuthUser();
         user.name = token.getPayload().sub;
+        user.permissions = token.getPayload().permissions;
+        user.roles = token.getPayload().roles;
         return user;
       })
     );
@@ -152,7 +154,7 @@ export class AuthService {
         return new AuthResponse(
           true,
           res,
-           'auth/login',
+          'auth/login',
           [],
           ['Successfully registered'],
           null,

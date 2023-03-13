@@ -5,6 +5,7 @@ import {LoginComponent} from "./pages/auth/component/login/login.component";
 import {AuthGuard} from "./pages/auth/service/auth-guard.services";
 import {RegisterComponent} from "./pages/auth/component/register/register.component";
 import {LogoutComponent} from "./pages/auth/component/logout/logout.component";
+import {RoleGuard} from "./pages/auth/service/role-guard.services";
 
 export const routes: Routes = [
   {

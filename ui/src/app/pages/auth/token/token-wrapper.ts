@@ -28,12 +28,15 @@ export class AuthTokenWrapper {
     return new JwtAuthToken(tokenPack.value, new Date(tokenPack.createdAt.valueOf()));
   }
 
-  protected parseTokenPack(value): TokenPack {
+  protected parseTokenPack(value: any): TokenPack {
     try {
       return new class implements TokenPack {
         createdAt: Number = Date.now();
         name: string = 'auth';
-        value: string = value;
+        value: string = (!!value && !this.isString(value)) ? value.value : value;
+        private isString (obj): boolean {
+          return (Object.prototype.toString.call(obj) === '[object String]');
+        }
       }
     } catch (e) { }
     return null;

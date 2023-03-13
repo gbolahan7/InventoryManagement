@@ -22,7 +22,7 @@ export class TokenLocalStorage extends TokenStorage {
 
   get(): AuthToken {
     const raw = localStorage.getItem(this.key);
-    return this.parceler.unwrap(raw);
+    return this.parceler.unwrap(!!raw ? JSON.parse(raw).value : null);
   }
 
   set(token: AuthToken) {

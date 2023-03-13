@@ -2,8 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {InjectionToken, NgModule} from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { CoreModule } from './@core/core.module';
-import { ThemeModule } from './@theme/theme.module';
+import { CoreModule } from './core/core.module';
+import { ThemeModule } from './theme/theme.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {
@@ -16,6 +16,7 @@ import {
 } from '@nebular/theme';
 import {AuthModule} from "./pages/auth/auth.module";
 import {environment} from "../environments/environment";
+import {Ng2SmartTableModule} from "ng2-smart-table";
 
 export const BASE_PATH = new InjectionToken<string>('basePath');
 
@@ -26,6 +27,7 @@ export const BASE_PATH = new InjectionToken<string>('basePath');
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    Ng2SmartTableModule,
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbDatepickerModule.forRoot(),

@@ -1,8 +1,8 @@
 
 import { Inject, Injectable, Injector } from '@angular/core';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {Observable, throwError} from 'rxjs';
+import {catchError, switchMap} from 'rxjs/operators';
 import {AuthToken} from "../model/token";
 import {AuthService} from "./auth.service";
 import {AUTH_TOKEN_INTERCEPTOR_FILTER} from "../auth.options";
@@ -11,7 +11,7 @@ import {AUTH_TOKEN_INTERCEPTOR_FILTER} from "../auth.options";
 export class AuthJWTInterceptor implements HttpInterceptor {
 
   constructor(private injector: Injector,
-              @Inject(AUTH_TOKEN_INTERCEPTOR_FILTER) protected filter) {
+              @Inject(AUTH_TOKEN_INTERCEPTOR_FILTER) protected filter, authService: AuthService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -30,7 +30,12 @@ export class AuthJWTInterceptor implements HttpInterceptor {
                   });
                   return next.handle(req);
                 }),
-              )
+                catchError((error: HttpErrorResponse) => {
+                  if (error && error.status == 401)
+                    this.authService.logout().subscribe();
+                    return throwError(error);
+                }
+              ))
             } else {
               return next.handle(req);
             }
