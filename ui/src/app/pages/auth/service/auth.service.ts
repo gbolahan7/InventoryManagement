@@ -152,7 +152,7 @@ export class AuthService {
         return new AuthResponse(
           true,
           res,
-          null,
+           'auth/login',
           [],
           ['Successfully registered'],
           null,

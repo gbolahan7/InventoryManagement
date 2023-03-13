@@ -7,6 +7,10 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate.ddl-auto: create-drop
+    h2:
+      console:
+        path: '/h2-console'
+        enabled: true
 debug: false
 auth:
   signing-token: ILOveGOD
