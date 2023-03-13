@@ -6,9 +6,16 @@ import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -17,11 +24,14 @@ public class JwtHelper {
     private final AuthenticationProperties authenticationProperties;
 
     public String generateJwtToken(Authentication authentication) {
-
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
-
-        return Jwts.builder().setSubject((userPrincipal.getUsername())).setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + authenticationProperties.getTokenExpiration())).signWith(SignatureAlgorithm.HS512, authenticationProperties.getSigningToken())
+        return Jwts.builder()
+                .setSubject((userPrincipal.getUsername()))
+                .claim("permissions", authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet()))
+                .claim("roles", userPrincipal.getGroup())
+                .setIssuedAt(new Date())
+                .setExpiration( Date.from(Instant.now().plus(authenticationProperties.getTokenExpiration(), ChronoUnit.SECONDS)) )
+                .signWith(SignatureAlgorithm.HS512, authenticationProperties.getSigningToken())
                 .compact();
     }
 

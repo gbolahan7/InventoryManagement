@@ -9,3 +9,10 @@ spring:
     lazy-initialization: false
   profiles:
     active: dev
+auth:
+  signing-token: ILOveGOD
+  token-expiration: 1
+  use-random: false
+app:
+  page:
+    max: 10

@@ -7,6 +7,7 @@ import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public class StartupHelper {
@@ -20,24 +21,27 @@ public class StartupHelper {
 
 
     private void startupRoleSuperUser(RoleRepository roleRepository) {
-        roleRepository.findByName(SUPER_ADMIN).orElseGet(() -> {
+        Role value = roleRepository.findByName(SUPER_ADMIN).orElseGet(() -> {
             Role role = new Role();
+            role.setDescription("A role representing the topmost hierarchical role for other roles");
             role.setName(SUPER_ADMIN);
-            role.setPrivileges(getAllPrivileges());
-            return roleRepository.save(role);
+            return role;
         });
+        value.setPrivileges(getAllPrivileges());
+        roleRepository.save(value);
     }
 
     private void startupRoleGuest(RoleRepository roleRepository) {
         roleRepository.findByName(GUEST).orElseGet(() -> {
             Role role = new Role();
+            role.setDescription("A role without any privilege");
             role.setName(GUEST);
             role.setPrivileges(Set.of());
             return roleRepository.save(role);
         });
     }
 
-    private Set<String> getAllPrivileges() {
+    public static Set<String> getAllPrivileges() {
         Set<String> privileges = new HashSet<>();
         Class<Privilege> clazz = Privilege.class;
         Field[] arr = clazz.getFields();

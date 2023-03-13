@@ -9,3 +9,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
   main:
     lazy-initialization: true
+auth:
+  signing-token: ILOveGOD
+  token-expiration: 180
+  use-random: false

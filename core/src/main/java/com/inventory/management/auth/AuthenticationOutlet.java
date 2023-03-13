@@ -24,19 +24,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RequiredArgsConstructor
 public class AuthenticationOutlet implements AuthenticationEntryPoint {
 
-    private final ErrorResponseInterceptor errorResponseInterceptor;
+  private final ErrorResponseInterceptor errorResponseInterceptor;
 
-    @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
-            throws IOException {
-        log.error("Unauthorized error: {}", authException.getMessage());
+  @Override
+  public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
+      throws IOException {
+    log.error("Unauthorized error: {}", authException.getMessage());
 
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(response.getOutputStream(), errorResponseInterceptor.handleAllException(authException, LocaleContextHolder.getLocale()).getBody());
+    final ObjectMapper mapper = new ObjectMapper();
+    mapper.writeValue(response.getOutputStream(), errorResponseInterceptor.handleAllException(authException, LocaleContextHolder.getLocale()).getBody());
 
-    }
+  }
 
 }

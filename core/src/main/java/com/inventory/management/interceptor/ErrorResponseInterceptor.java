@@ -30,11 +30,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ErrorResponseInterceptor {
 
-    //TODO internationalize this message
-    final public static String ERROR_MESSAGE = "A problem has occurred";
+    final public static String ERROR_MESSAGE = "response.failure";
 
     private final LocaleHelper localeHelper;
-
 
     @ExceptionHandler
     public ResponseEntity<GenericResponse<ErrorResponse>> handleAllException(Exception ex, Locale locale) {
@@ -102,6 +100,7 @@ public class ErrorResponseInterceptor {
         response.setMessage(authenticationException.getMessage());
         return response;
     }
+
     private ErrorResponse problemDelegator(Exception exception) {
         ErrorResponse response = new ErrorResponse();
         response.setStatusCode(((short) HttpStatus.INTERNAL_SERVER_ERROR.value()));

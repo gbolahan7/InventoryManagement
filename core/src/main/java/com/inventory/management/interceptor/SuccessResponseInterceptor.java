@@ -32,7 +32,6 @@ public class SuccessResponseInterceptor implements ResponseBodyAdvice<Object> {
 
     private final LocaleHelper localeHelper;
 
-
     @Override
     public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> aClass) {
         return methodParameter.getContainingClass().isAnnotationPresent(ResponseWrapper.class) ||

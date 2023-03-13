@@ -1,18 +1,18 @@
 package com.inventory.management.validation;
 
+import com.inventory.management.annotation.Validate;
 import com.inventory.management.repository.UserRepository;
 import com.inventory.management.vo.dto.CredentialDto;
 import com.inventory.management.vo.problem.ValidationBuilder;
 import com.inventory.management.vo.problem.ValidatorError;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.validator.EmailValidator;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
 
-@Component
+@Validate
 @RequiredArgsConstructor
 public class AuthenticationValidation {
 

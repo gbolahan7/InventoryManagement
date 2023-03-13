@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
-@Profile("dev")
+@Profile(value = {"dev", "prod"})
 class DevSecurityConfig {
 
     @Bean

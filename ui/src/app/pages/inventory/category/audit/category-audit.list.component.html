@@ -1,0 +1,7 @@
+<nb-card *nbIsGranted="['category', 'view']">
+  <nb-card-header>Category Request List</nb-card-header>
+  <nb-card-body>
+    <ng2-smart-table [settings]="settings" (userRowSelect)="onClickEvent($event)" [source]="source"></ng2-smart-table>
+  </nb-card-body>
+</nb-card>
+

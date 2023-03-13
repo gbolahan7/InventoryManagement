@@ -41,7 +41,7 @@ public class LoggerInterceptor {
     @AfterThrowing(pointcut = "applicationPackagePointcut() && springBeanPointcut()", throwing = "e")
     public void wrapException(JoinPoint joinPoint, Throwable e) {
         logSignature(joinPoint);
-        log.error( "Exception in {}() with cause = {}", joinPoint.getSignature().getName(), e.getCause() != null ? e.getCause() : "NULL" );
+        log.error( "Exception in {}() with message = {}", joinPoint.getSignature().getName(), e.getMessage() != null ? e.getMessage() : "NULL" );
     }
 
     @Around("applicationPackagePointcut() && springBeanPointcut()")
