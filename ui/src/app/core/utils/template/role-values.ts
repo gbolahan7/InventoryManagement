@@ -24,5 +24,17 @@ export const ROLE_ACCESS_CONTROL: NbAccessControl = {
   },
   admin_user_operation: {
     user: ['operation'],
-  }
+  },
+inventory_unit_view: {
+    unit: ['view'],
+  },
+  inventory_unit_create: {
+    unit: ['create'],
+  },
+  inventory_unit_modify: {
+    unit: ['modify'],
+  },
+  inventory_unit_access: {
+    unit: ['access'],
+  },
 }

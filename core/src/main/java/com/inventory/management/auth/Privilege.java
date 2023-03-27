@@ -12,4 +12,9 @@ public class Privilege {
     public final static String ADMIN_ROLE_OPERATION= "admin_role_operation";
     public final static String ADMIN_USER_OPERATION= "admin_user_operation";
 
+    public final static String INVENTORY_UNIT_VIEW = "inventory_unit_view";
+    public final static String INVENTORY_UNIT_CREATE= "inventory_unit_create";
+    public final static String INVENTORY_UNIT_MODIFY= "inventory_unit_modify";
+    public final static String INVENTORY_UNIT_ACCESS= "inventory_unit_access";
+
 }
