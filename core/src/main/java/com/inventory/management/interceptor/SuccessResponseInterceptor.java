@@ -43,7 +43,7 @@ public class SuccessResponseInterceptor implements ResponseBodyAdvice<Object> {
                                   Class<? extends HttpMessageConverter<?>> aClass,
                                   ServerHttpRequest request, ServerHttpResponse response) {
         log.info("START: writing generic response to object..");
-        if (object instanceof InputStream || object instanceof InputStreamSource) return object;
+        if (object instanceof byte[] || object instanceof InputStream || object instanceof InputStreamSource) return object;
         String message = extractAnnotatedMessage(methodParameter);
         log.info("Payload gotten: {}", object);
 
