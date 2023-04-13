@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost/inventory?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
     username: root
-    password: mysql123
+    password: mysql001
   jpa:
     hibernate.ddl-auto: update
     show-sql: true

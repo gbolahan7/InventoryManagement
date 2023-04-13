@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  app-client:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    ports:
+      - "8081:80"
+    restart: always
+    depends_on:
+      - app-server
+    networks:
+      - frontend
+  db:
+    platform: linux/x86_64
+    image: mysql:8.0.27
+    restart: always
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=inventory
+    ports:
+      - "3307:3306"
+    command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
+    networks:
+      - backend
+    volumes:
+      - mysql-volume:/var/lib/mysql
+  app-server:
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - _JAVA_OPTIONS=-Xmx512m -Xms256m
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/inventory?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    build:
+      context: ./core
+      dockerfile: Dockerfile
+    working_dir: /app/core
+    expose:
+      - "8099"
+    command: mvn clean spring-boot:run
+    ports:
+      - "8099:8099"
+    restart: always
+    depends_on:
+      - db
+    volumes:
+      - ~/.m2:/root/.m2
+      - .:/app
+    networks:
+      - backend
+      - frontend
+networks:
+  backend:
+  frontend:
+volumes:
+  mysql-volume:
