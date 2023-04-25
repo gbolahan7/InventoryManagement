@@ -6,6 +6,7 @@ import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import {AuthService} from "../../../pages/auth/service/auth.service";
 import {AuthUser} from "../../../pages/auth/model/auth-user";
+import {TokenLocalStorage} from "../../../pages/auth/token/token-storage";
 
 @Component({
   selector: 'ngx-header',
@@ -35,12 +36,31 @@ export class HeaderComponent implements OnInit, OnDestroy {
     { title: 'Log out', link: '/auth/logout'}
   ];
 
+  themeSwitcherConfig = {
+    value: this.getThemeValue(),
+    disabled: false,
+    color: {
+      checked: '#222b45',
+      unchecked: '#9ea6bf',
+    },
+    switchColor: {
+      checked: '#3366FF',
+      unchecked: '#3366FF',
+    },
+    labels: {
+      unchecked: this.themes[0].name,
+      checked: this.themes[1].name,
+    },
+    height: 25,
+    width: 65,
+  };
+
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
               private themeService: NbThemeService,
               private layoutService: LayoutService,
               private breakpointService: NbMediaBreakpointsService,
-              private authService: AuthService) {
+              private authService: AuthService, private tokenStorage: TokenLocalStorage) {
   }
 
   ngOnInit() {
@@ -71,8 +91,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  changeTheme(themeName: string) {
-    this.themeService.changeTheme(themeName);
+  changeTheme(toggleResponse: boolean) {
+    this.tokenStorage.setThemeValue(toggleResponse);
+    toggleResponse ?
+      this.themeService.changeTheme(this.themes[1].value) : this.themeService.changeTheme(this.themes[0].value);
+  }
+
+  getThemeValue(): boolean {
+    return this.tokenStorage.getThemeValue();
   }
 
   toggleSidebar(): boolean {

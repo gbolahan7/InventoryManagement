@@ -1,0 +1,90 @@
+<nb-card *nbIsGranted="['setting', 'view']">
+  <nb-card-body>
+    <nb-tabset fullWidth>
+      <nb-tab [tabTitle]= "'View'" [badgeDot]="true" [tabIcon]="'pie-chart-outline'">
+        <div class="row">
+          <div class="col-md-8">
+            <nb-card [size]="'small'">
+              <nb-card-header>Performance Setting Information</nb-card-header>
+              <nb-card-body>
+                <form class="form-horizontal">
+                  <div class="form-group row">
+                    <div class="col-sm-2">
+                      <label for="inputStaffLabel" class="label col-sm-0 col-form-label">Staff</label>
+                      <nb-checkbox id="inputStaffLabel"  fullWidth disabled  [checked]="staffChecked">Enable</nb-checkbox>
+                    </div>
+                    <div class="col-sm-3" [style]="staffStyle">
+                      <label for="inputStaff" class="label col-sm-0 col-form-label">Period</label>
+                      <input type="text" shape="round" size="tiny" fieldSize="tiny" nbInput id="inputStaff" disabled [value]="performanceSetting?.staffPeriod" >
+                    </div>
+                    <div class="col-sm-3" [style]="staffStyle">
+                      <label for="inputStaffStart" class="label col-sm-0 col-form-label">Start Period</label>
+                      <input type="text" shape="round" size="tiny" fieldSize="tiny" nbInput  id="inputStaffStart" disabled [value]="performanceSetting?.staffStartTime  | date:'dd/MM/yyyy hh:mm:ss a'" >
+                    </div>
+                    <div class="col-sm-3" [style]="staffStyle">
+                      <label for="inputStaffStop" class="label col-sm-0 col-form-label">Stop Period</label>
+                      <input type="text" shape="round" size="tiny" fieldSize="tiny" nbInput  id="inputStaffStop" disabled [value]="performanceSetting?.staffStopTime  | date:'dd/MM/yyyy hh:mm:ss a'" >
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-3" [style]="staffStyle">
+                      <label for="inputStaffUpdateType" class="label col-sm-0 col-form-label">Staff Update Type</label>
+                      <input type="text" shape="round" size="tiny" fieldSize="tiny" nbInput id="inputStaffUpdateType" disabled [value]="performanceSetting?.staffUpdateType" >
+                    </div>
+                    <div class="col-sm-3" [style]="staffStyle">
+                      <label for="inputStaffStart" class="label col-sm-0 col-form-label">Staff Bonus</label>
+                      <input type="text" shape="round" size="tiny" fieldSize="tiny" nbInput  id="inputStaffBonusPoint" disabled [value]="performanceSetting?.staffBonusPoint  | ngxNumberWithCommas" >
+                    </div>
+                  </div>
+                </form>
+              </nb-card-body>
+              <nb-card-footer *nbIsGranted="['setting', 'modify']">
+                <div class="buttons-row">
+                  <button (click)="onClickEvent()" size="small" [status]="'primary'" nbButton outline>Edit</button>
+                </div>
+              </nb-card-footer>
+            </nb-card>
+          </div>
+          <div class="col-md-4">
+            <nb-card [size]="'small'">
+              <nb-card-header>Audit Information</nb-card-header>
+              <nb-card-body>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="inputFirstName" class="label">Created By</label>
+                      <input type="text" disabled nbInput fullWidth id="inputFirstName" value="{{performanceSetting.createdBy}}">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="inputLastName" class="label">Created Date</label>
+                      <input type="text" disabled nbInput fullWidth id="inputLastName" value="{{performanceSetting.createdDate | date:'fullDate'}}">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="inputEmail" class="label">Modified By</label>
+                      <input type="text" disabled nbInput fullWidth id="inputEmail" value="{{performanceSetting.modifiedBy}}">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="inputWebsite" class="label">Modified Date</label>
+                      <input type="text" nbInput  disabled fullWidth id="inputWebsite" value="{{performanceSetting.modifiedDate | date:'fullDate'}}">
+                    </div>
+                  </div>
+                </div>
+              </nb-card-body>
+            </nb-card>
+          </div>
+        </div>
+      </nb-tab>
+      <nb-tab [tabTitle]= "'Audit History'" [badgeDot]="true" [tabIcon]="'edit-2-outline'">
+        <performance-setting-audit-list [entityId]="performanceSetting?.id"></performance-setting-audit-list>
+      </nb-tab>
+    </nb-tabset>
+  </nb-card-body>
+</nb-card>

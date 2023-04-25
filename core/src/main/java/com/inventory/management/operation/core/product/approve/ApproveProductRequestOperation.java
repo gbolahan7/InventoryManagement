@@ -59,7 +59,7 @@ public class ApproveProductRequestOperation extends AccessOperation<ProductReque
     private Product handleModify(ProductRequest request) {
         productRequestValidator.validate(MODIFY, request);
         Product product = productRepository.findById(request.getProductId())
-                .orElseThrow(() -> new ValidationException( new ValidationBuilder().addError("participant.schedule.does.not.exist").build()));
+                .orElseThrow(() -> new ValidationException(new ValidationBuilder().addError("validation.error.entity.does.not.exist").build()));
         product.setStatus(request.getStatus());
         product.setVersion(UUID.randomUUID().toString());
         product.setBrand(request.getBrand());

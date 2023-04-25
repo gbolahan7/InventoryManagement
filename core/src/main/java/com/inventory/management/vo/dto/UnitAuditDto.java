@@ -10,5 +10,5 @@ public class UnitAuditDto {
     private Integer revisionId;
     private Instant revisionDate;
     private String revisionType;
-    private CategoryDto entity;
+    private UnitDto entity;
 }

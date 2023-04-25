@@ -9,7 +9,19 @@
 
 <div class="header-container">
   <nb-actions size="small">
-
+    <nb-action class="control-item" >
+      <ng-toggle
+        [(ngModel)]="themeSwitcherConfig.value"
+        [disabled]="themeSwitcherConfig.disabled"
+        [labels]="themeSwitcherConfig.labels"
+        [color]="themeSwitcherConfig.color"
+        [switchColor]="themeSwitcherConfig.switchColor"
+        (ngModelChange)="changeTheme($event)"
+        [width]="themeSwitcherConfig.width"
+        [height]="themeSwitcherConfig.height"
+      >
+      </ng-toggle>
+    </nb-action>
     <nb-action class="user-action">
       <nb-user [nbContextMenu]="userMenu"
                [onlyPicture]="userPictureOnly"

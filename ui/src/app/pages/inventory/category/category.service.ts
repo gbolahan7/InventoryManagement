@@ -91,6 +91,25 @@ export class CategoryService {
     );
   }
 
+  public deleteCategory(id: number, observe: any = 'body', options?: { httpHeaderAccept?: 'application/json' }): Observable<HttpEvent<GenericResponse<Category>>> {
+    if (id === null || id === undefined) {
+      throw new Error('Required parameter id was null or undefined when calling getCategory.');
+    }
+    let headers = this.defaultHeaders;
+    return this.httpClient.get<GenericResponse<Category>>(`${this.basePath}/category/delete/${encodeURIComponent(String(id))}`,
+      {
+        responseType: 'json',
+        headers: headers,
+        observe: observe,
+      }
+    ).pipe(
+      catchError((error: HttpErrorResponse) => {
+        this.errorService.handleHttpResponseError(error);
+        return throwError(error);
+      })
+    );
+  }
+
   public getCategoryAudit(id: number, revisionId: number, observe: any = 'body', options?: { httpHeaderAccept?: 'application/json' }): Observable<HttpEvent<GenericResponse<CategoryHistoryAudit>>> {
     if (id === null || id === undefined) {
       throw new Error('Required parameter id was null or undefined when calling getCategory.');

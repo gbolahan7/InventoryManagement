@@ -24,7 +24,7 @@ export interface PageRequest {
 export const DEFAULT_PAGE_REQUEST = new class PageRequest {
   page = 0;
   size = 100;
-  sortBy = 'participant';
+  sortBy = 'id';
   sortDirection = 'asc';
 };
 

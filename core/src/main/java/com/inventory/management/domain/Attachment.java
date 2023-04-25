@@ -12,18 +12,18 @@ import java.util.Set;
 @Getter
 @Setter
 public class Attachment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Long id;
 
-    private String name;
+	private String name;
 
-    private String type;
-    private String mime;
+	private String type;
+	private String mime;
 
-    @Lob
-    @Column
-    private byte[] data;
+	@Lob
+	@Column
+	private byte[] data;
 
 
 }

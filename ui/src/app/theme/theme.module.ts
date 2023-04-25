@@ -35,6 +35,8 @@ import { COSMIC_THEME } from './styles/theme.cosmic';
 import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
 import {TruncateDotPipe} from "./pipes/truncate-dot.pipe";
+import {NgToggleModule} from "ng-toggle-button";
+import {FormsModule} from "@angular/forms";
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -64,7 +66,7 @@ const PIPES = [
 ];
 
 @NgModule({
-  imports: [CommonModule, ...NB_MODULES],
+  imports: [CommonModule, ...NB_MODULES, NgToggleModule, FormsModule],
   exports: [CommonModule, ...PIPES, ...COMPONENTS],
   declarations: [...COMPONENTS, ...PIPES],
 })

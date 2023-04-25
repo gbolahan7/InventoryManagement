@@ -6,6 +6,7 @@ import com.inventory.management.service.ProductService;
 import com.inventory.management.vo.dto.ProductAuditDto;
 import com.inventory.management.vo.dto.ProductDto;
 import com.inventory.management.vo.dto.ProductRequestDto;
+import com.inventory.management.vo.dto.UnitDto;
 import com.inventory.management.vo.request.PageRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,7 +27,7 @@ public class ProductController {
 
     @RolesAllowed({Privilege.INVENTORY_PRODUCT_VIEW})
     @GetMapping
-    public ResponseEntity<Page<ProductDto>> getCategories(PageRequest pageRequest, @RequestParam(value = "", required = false)  Map<String, Object> productFilter) {
+    public ResponseEntity<Page<ProductDto>> getProducts(PageRequest pageRequest, @RequestParam(value = "", required = false) Map<String, Object> productFilter) {
         return ResponseEntity.ok(productService.getProducts(pageRequest, productFilter));
     }
 
@@ -34,6 +35,12 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProduct(@PathVariable("id") Long id) {
         return ResponseEntity.ok(productService.getProduct(id));
+    }
+
+    @RolesAllowed({Privilege.INVENTORY_PRODUCT_DELETE})
+    @GetMapping("/delete/{id}")
+    public ResponseEntity<ProductDto> deleteProduct(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.deleteProduct(id));
     }
 
     @RolesAllowed({Privilege.INVENTORY_PRODUCT_VIEW})

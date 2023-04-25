@@ -1,0 +1,7 @@
+<nb-card *nbIsGranted="['purchase_order', 'view']">
+  <nb-card-header>Purchase Order Audit List</nb-card-header>
+  <nb-card-body>
+    <ng2-smart-table [settings]="settings" (userRowSelect)="onClickEvent($event)" [source]="source"></ng2-smart-table>
+  </nb-card-body>
+</nb-card>
+

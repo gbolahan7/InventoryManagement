@@ -5,30 +5,52 @@ import { PagesComponent } from './pages.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
 import {NoAccessComponent} from "./miscellaneous/no-access/no-access.component";
 import {RoleGuard} from "./auth/service/role-guard.services";
+import {DashboardComponent} from "./dashboard/dashboard.component";
+import {ReportModule} from "./report/report.module";
+import {PerformanceModule} from "./performance/performance.module";
 
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
   children: [
     {
-      path: '',
-      component: NotFoundComponent,
+      path: 'dashboard',
       canActivate: [RoleGuard],
+      component: DashboardComponent,
       data: [
-        { permission: 'product', resource: 'add'},
+        { permission: 'chart', resource: 'view'},
       ],
     },
     {
       path: 'inventory',
       canActivate: [RoleGuard],
       data: [
-        { permission: 'category', resource: 'create'},
+        { permission: 'purchase_order', resource: 'view'},
         { permission: 'category', resource: 'view'},
-        { permission: 'category', resource: 'access'},
-        { permission: 'category', resource: 'modify'},
+        { permission: 'unit', resource: 'view'},
+        { permission: 'product', resource: 'view'},
       ],
       loadChildren: () => import('./inventory/inventory.module')
         .then(m => m.InventoryModule),
+    },
+    {
+      path: 'report',
+      canActivate: [RoleGuard],
+      data: [
+        { permission: 'report', resource: 'view'},
+      ],
+      loadChildren: () => import('./report/report.module')
+        .then(m => m.ReportModule),
+    },
+    {
+      path: 'performance',
+      canActivate: [RoleGuard],
+      data: [
+        { permission: 'setting', resource: 'view'},
+        { permission: 'staff', resource: 'view'},
+      ],
+      loadChildren: () => import('./performance/performance.module')
+        .then(m => m.PerformanceModule),
     },
     {
       path: 'admin',
@@ -47,6 +69,15 @@ const routes: Routes = [{
       path: 'no-access',
       component: NoAccessComponent,
       data: []
+    },
+    {
+      path: '',
+      redirectTo: 'dashboard',
+      pathMatch: 'full',
+    },
+    {
+      path: '**',
+      component: NotFoundComponent,
     },
   ],
 }];

@@ -1,22 +1,30 @@
 package com.inventory.management.util;
 
 import com.inventory.management.auth.Privilege;
+import com.inventory.management.domain.PerformanceSetting;
 import com.inventory.management.domain.Role;
+import com.inventory.management.repository.PerformanceSettingRepository;
 import com.inventory.management.repository.RoleRepository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
+@Transactional(propagation = Propagation.REQUIRES_NEW)
 public class StartupHelper {
     public static final String SUPER_ADMIN = "SUPER_ADMIN";
     public static final String GUEST = "GUEST";
+    public static final String PERFORMANCE_SETTING_NAME = "defaultPerformanceSetting";
 
-    public StartupHelper(RoleRepository roleRepository) {
+    public StartupHelper(RoleRepository roleRepository, PerformanceSettingRepository performanceSettingRepository) {
         startupRoleSuperUser(roleRepository);
         startupRoleGuest(roleRepository);
+        ensurePerformanceSetting(performanceSettingRepository);
     }
 
 
@@ -39,6 +47,16 @@ public class StartupHelper {
             role.setPrivileges(Set.of());
             return roleRepository.save(role);
         });
+    }
+
+    private void ensurePerformanceSetting(PerformanceSettingRepository performanceSettingRepository) {
+        Optional<PerformanceSetting> optionalPerformanceSetting = performanceSettingRepository.findByName(PERFORMANCE_SETTING_NAME);
+        if(optionalPerformanceSetting.isEmpty()) {
+            PerformanceSetting setting = new PerformanceSetting();
+            setting.setName(PERFORMANCE_SETTING_NAME);
+            setting.setVersion(UUID.randomUUID().toString());
+            performanceSettingRepository.save(setting);
+        }
     }
 
     public static Set<String> getAllPrivileges() {

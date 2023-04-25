@@ -25,7 +25,7 @@ public class Product extends EntityLog implements Serializable {
     private String category;
     @Column
     private String brand;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String code;
     @Column(nullable = false)
     private String unit;

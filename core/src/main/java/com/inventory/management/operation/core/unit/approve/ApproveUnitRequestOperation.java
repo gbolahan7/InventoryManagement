@@ -52,7 +52,7 @@ public class ApproveUnitRequestOperation extends AccessOperation<UnitRequest, Lo
     private Unit handleModify(UnitRequest request) {
         unitRequestValidator.validate(MODIFY, request);
         Unit unit = unitRepository.findById(request.getUnitId())
-                .orElseThrow(() -> new ValidationException( new ValidationBuilder().addError("participant.schedule.does.not.exist").build()));
+                .orElseThrow(() -> new ValidationException(new ValidationBuilder().addError("validation.error.entity.does.not.exist").build()));
         unit.setDescription(request.getDescription());
         unit.setStatus(request.getStatus());
         unit.setVersion(UUID.randomUUID().toString());

@@ -6,6 +6,7 @@ import com.inventory.management.service.CategoryService;
 import com.inventory.management.vo.dto.CategoryAuditDto;
 import com.inventory.management.vo.dto.CategoryDto;
 import com.inventory.management.vo.dto.CategoryRequestDto;
+import com.inventory.management.vo.dto.UnitDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import com.inventory.management.vo.request.PageRequest;
@@ -34,6 +35,12 @@ public class CategoryController {
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDto> getCategory(@PathVariable("id") Long id) {
         return ResponseEntity.ok(categoryService.getCategory(id));
+    }
+
+    @RolesAllowed({Privilege.INVENTORY_CATEGORY_DELETE})
+    @GetMapping("/delete/{id}")
+    public ResponseEntity<CategoryDto> deleteCategory(@PathVariable Long id) {
+        return ResponseEntity.ok(categoryService.deleteCategory(id));
     }
 
     @RolesAllowed({Privilege.INVENTORY_CATEGORY_VIEW})

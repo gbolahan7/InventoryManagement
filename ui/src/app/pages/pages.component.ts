@@ -20,15 +20,95 @@ export class PagesComponent {
   private loadMenuItems(): void {
     this.menuItem = [
       {
+        title: 'Dashboard',
+        hidden: !this.isEnabled('chart', 'view'),
+        icon: 'home-outline',
+        home: true,
+        link: '/pages/dashboard'
+      },
+      {
         title: 'Inventory',
-        icon: 'shopping-cart-outline',
+        icon: 'shopping-bag-outline',
         hidden: !this.isEnabledList([
           {permission: 'category', resource: 'view'},
-          {permission: 'category', resource: 'create'},
+          {permission: 'purchase_order', resource: 'view'},
+          {permission: 'product', resource: 'view'},
+          {permission: 'unit', resource: 'view'},
         ]),
         children: [
           {
+            title: 'Product',
+            icon: 'archive-outline',
+            hidden: !this.isEnabledList([
+              {permission: 'product', resource: 'view'},
+              {permission: 'product', resource: 'create'},
+            ]),
+            children: [
+              {
+                title: 'Home',
+                link: '/pages/inventory/product',
+                icon: 'home-outline',
+                hidden: !this.isEnabled('product', 'view'),
+              },
+              {
+                title: 'Create',
+                link: '/pages/inventory/product/create',
+                icon: 'plus-circle-outline',
+                hidden: !this.isEnabled('product', 'create'),
+              },
+              {
+                title: 'List',
+                link: '/pages/inventory/product/list',
+                icon: 'list-outline',
+                hidden: !this.isEnabled('product', 'view'),
+              },
+              {
+                title: 'Request',
+                link: '/pages/inventory/product/request',
+                icon: 'archive-outline',
+                hidden: !this.isEnabled('product', 'view'),
+              },
+
+            ]
+          },
+          {
+            title: 'Purchase Order',
+            icon: 'shopping-cart-outline',
+            hidden: !this.isEnabledList([
+              {permission: 'purchase_order', resource: 'view'},
+              {permission: 'purchase_order', resource: 'create'},
+            ]),
+            children: [
+              {
+                title: 'Home',
+                link: '/pages/inventory/purchase-order',
+                icon: 'home-outline',
+                hidden: !this.isEnabled('purchase_order', 'view'),
+              },
+              {
+                title: 'Create',
+                link: '/pages/inventory/purchase-order/create',
+                icon: 'plus-circle-outline',
+                hidden: !this.isEnabled('purchase_order', 'create'),
+              },
+              {
+                title: 'List',
+                link: '/pages/inventory/purchase-order/list',
+                icon: 'list-outline',
+                hidden: !this.isEnabled('purchase_order', 'view'),
+              },
+              {
+                title: 'Request',
+                link: '/pages/inventory/purchase-order/request',
+                icon: 'archive-outline',
+                hidden: !this.isEnabled('purchase_order', 'view'),
+              },
+
+            ]
+          },
+          {
             title: 'Category',
+            icon: 'shield-outline',
             hidden: !this.isEnabledList([
               {permission: 'category', resource: 'view'},
               {permission: 'category', resource: 'create'},
@@ -60,6 +140,110 @@ export class PagesComponent {
               },
 
             ]
+          },
+          {
+            title: 'Unit',
+            icon: 'funnel-outline',
+            hidden: !this.isEnabledList([
+              {permission: 'unit', resource: 'view'},
+              {permission: 'unit', resource: 'create'},
+            ]),
+            children: [
+              {
+                title: 'Home',
+                link: '/pages/inventory/unit',
+                icon: 'home-outline',
+                hidden: !this.isEnabled('unit', 'view'),
+              },
+              {
+                title: 'Create',
+                link: '/pages/inventory/unit/create',
+                icon: 'plus-circle-outline',
+                hidden: !this.isEnabled('unit', 'create'),
+              },
+              {
+                title: 'List',
+                link: '/pages/inventory/unit/list',
+                icon: 'list-outline',
+                hidden: !this.isEnabled('unit', 'view'),
+              },
+              {
+                title: 'Request',
+                link: '/pages/inventory/unit/request',
+                icon: 'archive-outline',
+                hidden: !this.isEnabled('unit', 'view'),
+              },
+
+            ]
+          },
+        ],
+      },
+      {
+        title: 'Performance',
+        icon: 'trending-up-outline',
+        hidden: !this.isEnabledList([
+          {permission: 'setting', resource: 'view'},
+          {permission: 'staff', resource: 'view'},
+        ]),
+        children: [
+          {
+            title: 'Staff',
+            icon: 'people-outline',
+            link: '/pages/performance/staff',
+            hidden: !this.isEnabledList([
+              {permission: 'staff', resource: 'view'},
+            ]),
+          },
+          {
+            title: 'Setting',
+            icon: 'settings-2-outline',
+            hidden: !this.isEnabledList([
+              {permission: 'setting', resource: 'view'},
+              {permission: 'setting', resource: 'modify'},
+            ]),
+            children: [
+              {
+                title: 'View Setting',
+                link: '/pages/performance/setting/list/1',
+                icon: 'settings-outline',
+                hidden: !this.isEnabled('setting', 'view'),
+              },
+              {
+                title: 'Information',
+                link: '/pages/performance/setting/request',
+                icon: 'archive-outline',
+                hidden: !this.isEnabled('setting', 'view'),
+              },
+            ]
+          },
+        ],
+      },
+      {
+        title: 'Report',
+        icon: 'email-outline',
+        hidden: !this.isEnabledList([
+          {permission: 'report', resource: 'view'},
+        ]),
+        children: [
+          {
+            title: 'Unit',
+            link: '/pages/report/unit',
+          },
+          {
+            title: 'Product',
+            link: '/pages/report/product',
+          },
+          {
+            title: 'Category',
+            link: '/pages/report/category',
+          },
+          {
+            title: 'Purchase Order',
+            link: '/pages/report/purchase-order',
+          },
+          {
+            title: 'Purchase Items',
+            link: '/pages/report/purchase-order-item',
           },
         ],
       },
@@ -94,18 +278,6 @@ export class PagesComponent {
                 hidden: !this.isEnabled('user', 'operation'),
               },
             ]
-          },
-        ],
-      },
-      {
-        title: 'Miscellaneous',
-        icon: 'shuffle-2-outline',
-        hidden: !this.isEnabled('product', 'add'),
-        children: [
-          {
-            title: '404',
-            link: '/pages/miscellaneous/404',
-            hidden: !this.isEnabled('product', 'view'),
           },
         ],
       },

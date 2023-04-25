@@ -1,6 +1,7 @@
 package com.inventory.management.operation.core.unit.list.query;
 
 import com.inventory.management.domain.QUnit;
+import com.inventory.management.operation.core.unit.list.query.UnitQuery;
 import com.inventory.management.util.PageRequestHelper;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
@@ -26,6 +27,7 @@ public class UnitQueryMapper {
 
             ofNullable(query.getId()).ifPresent(p -> where.and(QUERY.id.eq(p)));
             ofNullable(query.getName()).ifPresent(p -> where.and(QUERY.name.eq(p)));
+            ofNullable(query.getStatus()).ifPresent(p -> where.and(QUERY.status.eq(p)));
             ofNullable(query.getDescription()).ifPresent(p -> where.and(QUERY.description.likeIgnoreCase(p)));
 
             return where;

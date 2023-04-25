@@ -54,7 +54,7 @@ public class ApproveCategoryRequestOperation extends AccessOperation<CategoryReq
     private Category handleModify(CategoryRequest request) {
         categoryRequestValidator.validate(MODIFY, request);
         Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new ValidationException( new ValidationBuilder().addError("participant.schedule.does.not.exist").build()));
+                .orElseThrow(() -> new ValidationException(new ValidationBuilder().addError("validation.error.entity.does.not.exist").build()));
         category.setDescription(request.getDescription());
         category.setStatus(request.getStatus());
         category.setItems(new HashSet<>(request.getItems()));

@@ -13,6 +13,7 @@ public interface UnitService {
 
     Page<UnitDto> getUnits(PageRequest pageRequest, Map<String, Object> unitFilter);
     UnitDto getUnit(Long id);
+    UnitDto deleteUnit(Long id);
     UnitAuditDto getUnitAudit(Long id, Integer revisionId);
     Page<UnitAuditDto> getUnitAudits(Long id, PageRequest pageRequest, Map<String, Object> unitAuditsFilter);
     Page<UnitRequestDto> getUnitRequests(PageRequest pageRequest, Map<String, Object> currencyRequestFilter);

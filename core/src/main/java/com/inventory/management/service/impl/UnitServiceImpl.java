@@ -1,5 +1,6 @@
 package com.inventory.management.service.impl;
 
+import com.inventory.management.domain.Unit;
 import com.inventory.management.domain.UnitRequest;
 import com.inventory.management.mapper.UnitAuditMapper;
 import com.inventory.management.mapper.UnitMapper;
@@ -8,6 +9,7 @@ import com.inventory.management.operation.access.AccessOperationRequest;
 import com.inventory.management.operation.audit.ViewAuditOperationRequest;
 import com.inventory.management.operation.core.unit.approve.ApproveUnitRequestOperation;
 import com.inventory.management.operation.core.unit.create.CreateUnitOperation;
+import com.inventory.management.operation.core.unit.delete.DeleteUnitOperation;
 import com.inventory.management.operation.core.unit.list.ListUnitAuditOperation;
 import com.inventory.management.operation.core.unit.list.ListUnitOperation;
 import com.inventory.management.operation.core.unit.list.ListUnitRequestOperation;
@@ -17,6 +19,8 @@ import com.inventory.management.operation.core.unit.view.ViewUnitOperation;
 import com.inventory.management.operation.core.unit.view.ViewUnitRequestOperation;
 import com.inventory.management.operation.create.CreateOperationRequest;
 import com.inventory.management.operation.create.CreateOperationResponse;
+import com.inventory.management.operation.delete.DeleteOperationRequest;
+import com.inventory.management.operation.delete.DeleteOperationResponse;
 import com.inventory.management.operation.list.ListAuditOperationRequest;
 import com.inventory.management.operation.list.ListOperationRequest;
 import com.inventory.management.operation.view.ViewOperationRequest;
@@ -25,8 +29,11 @@ import com.inventory.management.vo.dto.UnitAuditDto;
 import com.inventory.management.vo.dto.UnitDto;
 import com.inventory.management.vo.dto.UnitRequestDto;
 import com.inventory.management.vo.problem.CustomApiException;
+import com.inventory.management.vo.problem.ValidationBuilder;
+import com.inventory.management.vo.problem.ValidationException;
 import com.inventory.management.vo.request.PageRequest;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +53,7 @@ public class UnitServiceImpl implements UnitService {
     private final ViewUnitRequestOperation viewUnitRequestOperation;
     private final ListUnitRequestOperation listUnitRequestsOperation;
     private final CreateUnitOperation createUnitOperation;
+    private final DeleteUnitOperation deleteUnitOperation;
     private final ApproveUnitRequestOperation approveUnitRequestOperation;
     private final RejectUnitRequestOperation rejectUnitRequestOperation;
 
@@ -60,7 +68,19 @@ public class UnitServiceImpl implements UnitService {
     public UnitDto getUnit(Long id) {
         return viewUnitOperation.process(new ViewOperationRequest<>(id))
                 .getEntity().map(unitMapper::toDto)
-                .orElseThrow(() -> new CustomApiException("error occurred while fetching"));
+                .orElseThrow(() -> new ValidationException( new ValidationBuilder().addError("validation.error.entity.does.not.exist").build()));
+    }
+
+    @Override
+    public UnitDto deleteUnit(Long id) {
+        Unit unit = viewUnitOperation.process(new ViewOperationRequest<>(id)).getEntity()
+                .orElseThrow(() -> new ValidationException( new ValidationBuilder().addError("validation.error.entity.does.not.exist").build()));
+        UnitRequest unitRequest = new UnitRequest();
+        BeanUtils.copyProperties(unit, unitRequest);
+        unitRequest.setUnitId(unit.getId());
+        DeleteOperationRequest<Unit, UnitRequest> request = new DeleteOperationRequest<>(unit, unitRequest);
+        DeleteOperationResponse<Unit> operationResponse = deleteUnitOperation.process(request);
+        return unitMapper.toDto(operationResponse.getDomain());
     }
 
     @Override

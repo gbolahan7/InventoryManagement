@@ -4,4 +4,6 @@
  */
 export const environment = {
   production: true,
+  core_api_url: 'http://localhost:8099',
+  app_version: '1.0',
 };

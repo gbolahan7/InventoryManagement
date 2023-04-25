@@ -1,0 +1,10 @@
+<nb-card >
+  <nb-card-header >{{ title }}</nb-card-header>
+  <nb-card-body >
+    {{ message }}
+  </nb-card-body>
+  <nb-card-footer class="modal-footer">
+    <button nbButton shape="round" ghost  size="small" [status]="'primary'" outline (click)="accept()">{{ btnOkText }}</button>
+    <button nbButton shape="round" ghost  size="small" [status]="'primary'" outline  (click)="decline()">{{ btnCancelText }}</button>
+  </nb-card-footer>
+</nb-card>

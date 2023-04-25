@@ -16,6 +16,7 @@ public interface CategoryService {
 
     Page<CategoryDto> getCategories(PageRequest pageRequest, Map<String, Object> categoryFilter);
     CategoryDto getCategory(Long id);
+    CategoryDto deleteCategory(Long id);
     CategoryAuditDto getCategoryAudit(Long id, Integer revisionId);
     Page<CategoryAuditDto> getCategoryAudits(Long id, PageRequest pageRequest, Map<String, Object> categoryAuditsFilter);
     Page<CategoryRequestDto> getCategoryRequests(PageRequest pageRequest, Map<String, Object> currencyRequestFilter);

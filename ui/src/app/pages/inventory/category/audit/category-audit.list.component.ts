@@ -62,7 +62,7 @@ export class CategoryAuditListComponent implements OnInit{
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params: Params) => {
-      let id: number = !!params.id ? this.entityId : params.id;
+      let id: number = !!params.id ? params.id : this.entityId;
       this.fetchData(id);
       this.entityId = id;
     });

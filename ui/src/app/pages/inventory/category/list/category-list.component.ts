@@ -16,6 +16,8 @@ import {
 } from "../../../../core/utils/template/http-util";
 import {Router} from "@angular/router";
 import {NbAccessChecker} from "@nebular/security";
+import {PurchaseOrderItem} from "../../purchase-order/purchase-order.data";
+import {ConfirmationDialogService} from "../../../../core/utils/confirm-dialog.service";
 
 @Component({
   selector: 'inventory-category-list',
@@ -24,17 +26,8 @@ import {NbAccessChecker} from "@nebular/security";
 })
 export class CategoryListComponent {
 
-  settings = {
-    hideSubHeader: true,
-    actions: {
-      position: 'right',
-      custom: CATEGORY_CUSTOM,
-    },
-    add: CATEGORY_ADD,
-    edit: CATEGORY_MODIFY,
-    delete: CATEGORY_DELETE,
-    columns: CATEGORY_HEADER
-  };
+  settingsDelete = true;
+  settings = this.fetchSettings();
 
   filterEntity: any = {};
 
@@ -43,27 +36,49 @@ export class CategoryListComponent {
 
   dataPresent: boolean = false;
 
-  constructor(private categoryService: CategoryService, private router:Router, accessChecker: NbAccessChecker) {
+  constructor(private categoryService: CategoryService, private router:Router, accessChecker: NbAccessChecker,
+              private confirmationService: ConfirmationDialogService) {
     accessChecker
-      .isGranted('category', 'modify')
+      .isGranted('category', 'delete')
       .subscribe((value: boolean) => {
         if(!value) {
-          this.settings.actions.custom = [{name: '', title: '<i style="display: flex;"></i>'}];
+          this.settingsDelete = false;
+          this.settings = this.fetchSettings();
         }
       });
     this.fetchData();
   }
 
   onDeleteConfirm(event): void {
-    if (window.confirm('Are you sure you want to delete?')) {
-      event.confirm.resolve();
-    } else {
-      event.confirm.reject();
-    }
+    this.confirmationService.confirm('Delete Category', 'Are you sure you want to delete?')
+      .then((confirmed: boolean) => {
+        if (confirmed) {
+          let value: Category = event.data;
+          this.categoryService.deleteCategory(value.id).subscribe((event.confirm.resolve()), event.confirm.reject());
+        } else {
+          event.confirm.reject();
+        }
+      })
+      .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
   }
 
   onClickEvent(event): void {
     this.router.navigate(['pages/inventory/category/list', event.data.id]);
+  }
+
+  fetchSettings() {
+    return {
+      hideSubHeader: true,
+        actions: {
+      position: 'right',
+        delete: this.settingsDelete,
+        custom: CATEGORY_CUSTOM,
+    },
+      add: CATEGORY_ADD,
+        edit: CATEGORY_MODIFY,
+      delete: CATEGORY_DELETE,
+      columns: CATEGORY_HEADER
+    }
   }
 
 

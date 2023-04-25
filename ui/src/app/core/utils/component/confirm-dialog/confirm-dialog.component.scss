@@ -1,0 +1,30 @@
+@import '../../../../theme/styles/themes';
+:host ::ng-deep ngx-tab1, :host ::ng-deep ngx-tab2 {
+  display: block;
+  padding: 1rem 2rem;
+}
+
+@include nb-install-component() {
+  nb-card {
+    transform: translate3d(0, 0, 0);
+  }
+}
+::ng-deep {
+  ng2-smart-table .ng2-smart-actions ng2-st-tbody-edit-delete, ng2-smart-table .ng2-smart-actions ng2-st-tbody-create-cancel, ng2-smart-table .ng2-smart-actions ng2-st-actions {
+    display: inline-block;
+    height: 0 !important;
+  }
+
+  ng2-st-tbody-custom {
+    display: inline-block;
+    text-align: center;
+  }
+}
+.modal-container {
+  backdrop-filter: blur(10px);
+}
+.modal-open .modal-backdrop {
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 1 !important;
+}

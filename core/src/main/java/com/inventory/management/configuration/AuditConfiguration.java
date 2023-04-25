@@ -18,7 +18,12 @@ public class AuditConfiguration {
     public AuditorAware<String> securityAuditorAware() {
         return () -> {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            return auth != null && auth.getPrincipal() != null ? Optional.of(((Principal)auth.getPrincipal()).getName()) : Optional.of("SYSTEM");
+            if( auth != null && auth.getPrincipal() != null) {
+                Object principal = auth.getPrincipal();
+                if(principal instanceof String) return Optional.of("SYSTEM");
+                return Optional.of(((Principal) auth.getPrincipal()).getName());
+            }
+            else return  Optional.of("SYSTEM");
         };
     }
 }

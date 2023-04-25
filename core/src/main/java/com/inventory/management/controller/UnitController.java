@@ -80,6 +80,12 @@ public class UnitController {
         return ResponseEntity.ok(unitService.approveUnitRequest(requestId));
     }
 
+    @RolesAllowed({Privilege.INVENTORY_UNIT_DELETE})
+    @GetMapping("/delete/{id}")
+    public ResponseEntity<UnitDto> deleteUnit(@PathVariable Long id) {
+        return ResponseEntity.ok(unitService.deleteUnit(id));
+    }
+
     @RolesAllowed({Privilege.INVENTORY_UNIT_ACCESS})
     @GetMapping("/request/reject/{requestId}")
     public ResponseEntity<UnitRequestDto> rejectUnitRequest(@PathVariable Long requestId) {
