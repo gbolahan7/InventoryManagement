@@ -31,6 +31,8 @@ import {ProductService} from "../inventory/product/product.service";
 import {ReportPurchaseOrderComponent} from "./purchase-order/report-purchase-order.component";
 import {ReportCategoryComponent} from "./category/report-category.component";
 import {ReportPurchaseOrderItemComponent} from "./purchase-order-items/report-purchase-order-item.component";
+import {SettingService} from "../performance/setting/setting.service";
+import {ReportStaffPerformanceComponent} from "./staff-performance/report-staff-performance.component";
 
 
 @NgModule({
@@ -61,7 +63,8 @@ import {ReportPurchaseOrderItemComponent} from "./purchase-order-items/report-pu
     ReportPurchaseOrderComponent,
     ReportCategoryComponent,
     ReportPurchaseOrderItemComponent,
-    ReportUnitComponent
+    ReportUnitComponent,
+    ReportStaffPerformanceComponent
   ],
   providers: [
     ReportService,
@@ -69,6 +72,7 @@ import {ReportPurchaseOrderItemComponent} from "./purchase-order-items/report-pu
     UnitService,
     ProductService,
     PurchaseOrderService,
+    SettingService
   ],
 })
 export class ReportModule {

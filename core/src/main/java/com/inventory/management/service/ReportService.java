@@ -11,4 +11,5 @@ public interface ReportService {
     byte[] getPurchaseOrderItems(PageRequest pageRequest, String format, Map<String, Object> filter);
     byte[] getPurchaseOrders(PageRequest pageRequest, String format, Map<String, Object> filter);
     byte[] getUnits(PageRequest pageRequest, String format, Map<String, Object> filter);
+    byte[] getStaffPerformances(String format);
 }

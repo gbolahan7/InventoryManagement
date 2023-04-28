@@ -245,6 +245,10 @@ export class PagesComponent {
             title: 'Purchase Items',
             link: '/pages/report/purchase-order-item',
           },
+          {
+            title: 'Staff Performance',
+            link: '/pages/report/staff-performance',
+          },
         ],
       },
       {

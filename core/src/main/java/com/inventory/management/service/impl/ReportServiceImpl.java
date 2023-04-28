@@ -9,10 +9,12 @@ import com.inventory.management.operation.core.purchaseOrder.list.ListPurchaseOr
 import com.inventory.management.operation.core.purchaseOrder.report.PurchaseOrderReportOperation;
 import com.inventory.management.operation.core.purchaseOrderItem.list.ListPurchaseOrderItemOperation;
 import com.inventory.management.operation.core.purchaseOrderItem.report.PurchaseOrderItemReportOperation;
+import com.inventory.management.operation.core.staffPerformance.StaffPerformanceReportOperation;
 import com.inventory.management.operation.core.unit.list.ListUnitOperation;
 import com.inventory.management.operation.core.unit.report.UnitReportOperation;
 import com.inventory.management.operation.list.ListOperationRequest;
 import com.inventory.management.service.ReportService;
+import com.inventory.management.service.StaffPerformanceService;
 import com.inventory.management.vo.dto.*;
 import com.inventory.management.vo.problem.CustomApiException;
 import com.inventory.management.vo.request.PageRequest;
@@ -29,7 +31,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-
+import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ReportServiceImpl implements ReportService {
@@ -49,6 +51,8 @@ public class ReportServiceImpl implements ReportService {
     private final UnitReportOperation unitReportOperation;
     private final UnitMapper unitMapper;
     private final ListUnitOperation listUnitOperation;
+    private final StaffPerformanceReportOperation staffPerformanceReportOperation;
+    private final StaffPerformanceService staffPerformanceService;
     private final Map<String, Function<JasperPrint, byte[]>> exporterMap = Map.of(
             "pdf", this::getReportPdf,
             "xlsx", this::getReportXlsx
@@ -87,6 +91,12 @@ public class ReportServiceImpl implements ReportService {
         List<UnitDto> list = listUnitOperation.process(new ListOperationRequest(pageRequest, filter)).getPage()
                 .map(unitMapper::toDto).toList();
         return exporterMap.getOrDefault(format, jasperPrint -> new byte[0]).apply(unitReportOperation.getReport(list));
+    }
+
+    @Override
+    public byte[] getStaffPerformances(String format) {
+        List<StaffPerformanceDto> staff = staffPerformanceService.getAllStaffPerformance();
+        return exporterMap.getOrDefault(format, jasperPrint -> new byte[0]).apply(staffPerformanceReportOperation.getReport(staff));
     }
 
     private byte[] getReportPdf(final JasperPrint jasperPrint) {

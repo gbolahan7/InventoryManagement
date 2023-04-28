@@ -1,13 +1,12 @@
-import { RouterModule, Routes } from '@angular/router';
-import { NgModule } from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {NgModule} from '@angular/core';
 
-import { PagesComponent } from './pages.component';
-import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
+import {PagesComponent} from './pages.component';
+import {NotFoundComponent} from './miscellaneous/not-found/not-found.component';
 import {NoAccessComponent} from "./miscellaneous/no-access/no-access.component";
 import {RoleGuard} from "./auth/service/role-guard.services";
 import {DashboardComponent} from "./dashboard/dashboard.component";
-import {ReportModule} from "./report/report.module";
-import {PerformanceModule} from "./performance/performance.module";
+
 
 const routes: Routes = [{
   path: '',

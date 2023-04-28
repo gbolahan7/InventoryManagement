@@ -24,7 +24,7 @@ public class PurchaseOrderItemReportOperation extends PrinterOperation<PurchaseO
         AbstractColumn column3 = createColumn("productCode", String.class, "Code", 10, headerStyle, detailTextStyle);
         AbstractColumn column4 = createColumn("amount", BigDecimal.class, "Price", 10, headerStyle, detailNumStyle);
         AbstractColumn column5 = createColumn("vatEnabled", Boolean.class, "VAT", 10, headerStyle, detailTextStyle);
-        AbstractColumn column6 = createColumn("quantity", Long.class, "Quantity", 10, headerStyle, detailNumStyle);
+        AbstractColumn column6 = createColumn("quantity", Long.class, "Quantity", 10, headerStyle, detailTextStyle);
         report.addColumn(column1).addColumn(column2).addColumn(column3).addColumn(column4);
         report.addColumn(column5).addColumn(column6);
         report.setTitle("Purchase Item Report");

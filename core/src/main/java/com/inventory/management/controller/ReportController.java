@@ -60,6 +60,12 @@ public class ReportController {
         return new HttpEntity<>(data, getResultHeader(format, data.length, "unit"));
     }
 
+    @RolesAllowed({Privilege.REPORT_LIST_VIEW})
+    @GetMapping("/performance-staff")
+    public HttpEntity<byte[]> getStaffPerformance(@PathVariable String format) {
+        byte[] data = reportService.getStaffPerformances(format);
+        return new HttpEntity<>(data, getResultHeader(format, data.length, "staff_performance"));
+    }
     private HttpHeaders getResultHeader(String format, int len, String basename) {
         HttpHeaders header = new HttpHeaders();
         String name = String.format("inline; filename=%s%s.%s", basename, RandomStringUtils.randomAlphanumeric(6), format);
