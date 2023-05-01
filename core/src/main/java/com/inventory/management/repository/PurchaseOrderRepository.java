@@ -15,12 +15,17 @@ import java.util.Optional;
 @Repository
 public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, Long>, CustomQuerydslPredicateExecutor<PurchaseOrder>  {
 
-    @Query("Select new com.inventory.management.vo.dto.performance.PerformanceOrder(count(poi.id) , cast(sum(poi.amount * poi.quantity) as java.lang.Double ), po.modifiedBy) from PurchaseOrder po" +
-            " LEFT JOIN po.items poi  group by po.modifiedBy ")
+    @Query("Select new com.inventory.management.vo.dto.performance.PerformanceOrder(count(poi.id) , cast(sum(poi.amount * poi.quantity) as java.lang.Double ), por.createdBy) from PurchaseOrder po" +
+            " LEFT JOIN po.items poi " +
+            " JOIN PurchaseOrderRequest por  on por.purchaseOrderId = po.id " +
+            "  group by por.createdBy ")
     List<PerformanceOrder> findAllPerformanceOrder();
 
-    @Query("Select new com.inventory.management.vo.dto.performance.PerformanceOrder(count(poi.id) , cast(sum(poi.amount * poi.quantity) as java.lang.Double ), po.modifiedBy) from PurchaseOrder po" +
-            " LEFT JOIN po.items poi where po.modifiedDate > :date group by po.modifiedBy ")
+    @Query("Select new com.inventory.management.vo.dto.performance.PerformanceOrder(count(poi.id) , cast(sum(poi.amount * poi.quantity) as java.lang.Double ), por.createdBy) from PurchaseOrder po" +
+            " LEFT JOIN po.items poi " +
+            " JOIN PurchaseOrderRequest por  on por.purchaseOrderId = po.id " +
+            " where po.modifiedDate > :date " +
+            " group by por.createdBy ")
     List<PerformanceOrder> findAllPerformanceOrder(@Param("date") Instant date);
 
 }

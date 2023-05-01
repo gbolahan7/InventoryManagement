@@ -42,6 +42,7 @@ public class ApprovePurchaseOrderRequestOperation extends AccessOperation<Purcha
         PurchaseOrder purchaseOrderEntity = handlers.get(requestEntity.getRequestType()).apply(requestEntity);
         purchaseOrderRepository.save(purchaseOrderEntity);
         requestEntity.setRequestStatus(APPROVED);
+        requestEntity.setPurchaseOrderId(purchaseOrderEntity.getId());
         return repository.save(requestEntity);
     }
 
