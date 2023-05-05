@@ -1,0 +1,1 @@
+## This is the setup documentation for the inventory application
