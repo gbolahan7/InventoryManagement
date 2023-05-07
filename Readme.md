@@ -21,7 +21,8 @@ docker-compose up
  ng serve --port 8081
 ```
 #### BACK-END
-- You must have mysql server running on port 3306
+- Have MySQL DB server installed
+- And have the mysql DB server running on port 3306
 - You must have (jdk 11 or above) and maven installed on your machine globally
 - Then `cd` to the core directory and run this command
 ```sh
@@ -29,7 +30,7 @@ docker-compose up
 ```
 
 #### Technology Used
-- SPRING-BOOT
+- JAVA SPRING-BOOT
 - MYSQL
 - DOCKER
 - ANGULARJS
