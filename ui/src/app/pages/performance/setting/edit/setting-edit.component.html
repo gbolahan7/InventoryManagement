@@ -1,0 +1,69 @@
+<div class="row" *nbIsGranted="['setting', 'modify']">
+  <div class="col-md-12">
+    <nb-card [size]="'giant'">
+      <nb-card-header>Edit Performance Setting</nb-card-header>
+      <nb-card-body>
+        <form (ngSubmit)="edit()" #f="ngForm" autocomplete="off">
+          <div class="form-group row">
+            <div class="col-sm-4" >
+              <label for="inputStaff" class="label col-sm-0 col-form-label">Staff Period</label>
+              <nb-select *ngIf="periods" shape="round" name="staffPeriod" [(ngModel)]="performanceSetting.staffPeriod"
+                         id="inputStaff" outline  size="tiny" fullWidth
+                         [outline]="true"  [hero]="true" class="type-select">
+                <nb-option *ngFor="let period of periods" [value]="period.key">
+                  <span >{{period.name}}</span>
+                </nb-option>
+              </nb-select>
+            </div>
+            <div class="col-sm-4" >
+              <label for="inputStaffStart" class="label col-sm-0 col-form-label">Staff Start Period</label>
+              <input id="inputStaffStart" nbInput placeholder="Start" [value]="performanceSetting?.staffStartTime   | date:'dd/MM/yyyy hh:mm:ss a'"
+                     name="staffStartTime"
+                     [(ngModel)]="performanceSetting.staffStartTime" fieldSize="tiny" status="primary" size="tiny" shape="round"
+                     [nbDatepicker]="staffStart">
+              <nb-date-timepicker twelveHoursFormat withSeconds #staffStart></nb-date-timepicker>
+            </div>
+            <div class="col-sm-4" >
+              <label for="inputStaffStop" class="label col-sm-0 col-form-label">Staff Stop Period</label>
+              <input fieldSize="tiny" status="primary" size="tiny" placeholder="Stop" shape="round"
+                     nbInput [nbDatepicker]="staffStop" id="inputStaffStop" name="staffStopTime"
+                     [value]="performanceSetting.staffStopTime   | date:'dd/MM/yyyy hh:mm:ss a'"
+                     [(ngModel)]="performanceSetting.staffStopTime" >
+              <nb-date-timepicker twelveHoursFormat withSeconds #staffStop></nb-date-timepicker>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-4" >
+              <label for="inputUpdateType" class="label col-sm-0 col-form-label">Staff Update Type</label>
+              <nb-select *ngIf="updateTypes" shape="round" name="staffUpdateType" [(ngModel)]="performanceSetting.staffUpdateType"
+                         id="inputUpdateType" outline  size="tiny" fullWidth
+                         [outline]="true"  [hero]="true" class="type-select">
+                <nb-option *ngFor="let type of updateTypes" [value]="type.key">
+                  <span >{{type.name}}</span>
+                </nb-option>
+              </nb-select>
+            </div>
+            <div class="col-sm-4" >
+              <label for="inputStaffBonusPoint" class="label col-sm-0 col-form-label">Staff Bonus Point</label>
+              <input id="inputStaffBonusPoint" nbInput placeholder="Start" type="number"
+                     name="staffBonusPoint"
+                     [(ngModel)]="performanceSetting.staffBonusPoint" fieldSize="tiny" status="primary" size="tiny" shape="round">
+            </div>
+          </div>
+          <div class="form-group  row">
+            <div class="col-sm-12">
+              <div>
+                <br/>
+                <div class="buttons-row">
+                  <button [disabled]="!(f.valid && f.dirty)" size="small" [status]="'primary'" nbButton outline>Update</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+
+  </div>
+
+</div>

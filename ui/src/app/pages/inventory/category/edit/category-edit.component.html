@@ -1,0 +1,61 @@
+<div class="row" *nbIsGranted="['category', 'modify']">
+  <div class="col-md-12">
+    <nb-card [size]="'giant'">
+      <nb-card-header>Edit Category</nb-card-header>
+      <nb-card-body>
+        <form (ngSubmit)="edit()" #f="ngForm">
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label for="inputName" class="label col-sm-0 col-form-label">Name</label>
+              <input type="text" disabled nbInput fullWidth id="inputName" name="name" required [(ngModel)]="category.name" >
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label for="inputDescription" class="col-sm-0 label">Description</label>
+              <textarea id="inputDescription" name="description" required [(ngModel)]="category.description" rows="5" nbInput fullWidth shape="round" ></textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-12">
+              <label for="inputTag0">Items</label>
+              <input id="inputTag0" nbInput fieldSize="tiny"  fullWidth shape="round" #tagInput [name]="taskInputTag">
+              <button style="margin-top: 2px;" type="button" shape="round" [fullWidth]="false" nbButton hero size="small"
+                      outline (click)="onAddTaskTag(tagInput)">Add Item</button>
+            </div>
+            <div class="col-md-12">
+              <nb-tag-list size="medium" >
+                <nb-tag size="tiny" appearance="outline" *ngFor="let tree of taskTags" removable (remove)="onTaskProjectTag($event)"
+                        [text]="tree" status="primary"></nb-tag>
+              </nb-tag-list>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-12">
+              <label >Status</label>
+              <nb-select *ngIf="statuses" required name="status" [(ngModel)]="category.status"   id="inputCategory0" outline  size="tiny"
+                         [outline]="true"  [hero]="true" fullWidth class="type-select">
+                <nb-option *ngFor="let status of statuses" [value]="status.name">
+                  <span >{{status.name}}</span>
+                </nb-option>
+              </nb-select>
+            </div>
+          </div>
+
+          <div class="form-group  row">
+            <div class="col-sm-12">
+              <div>
+                <br/>
+                <div class="buttons-row">
+                  <button [disabled]="!(f.valid && f.dirty)" size="small" [status]="'primary'" nbButton outline>Update</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+
+  </div>
+
+</div>

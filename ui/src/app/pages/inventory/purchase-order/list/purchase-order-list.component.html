@@ -1,0 +1,41 @@
+<div *nbIsGranted="['purchase_order', 'view']">
+  <nb-card>
+    <div class="accordion-container">
+      <nb-accordion multi>
+        <nb-accordion-item>
+          <nb-accordion-item-header>
+            Filter
+          </nb-accordion-item-header>
+          <nb-accordion-item-body>
+            <form (ngSubmit)="filter()" #form="ngForm">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="inputId" class="label">Id</label>
+                    <input [(ngModel)]="filterEntity.id" type="number" name="id" nbInput fullWidth id="inputId" placeholder="ID">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="inputStatus" class="label">Status</label>
+                    <input type="text" nbInput [(ngModel)]="filterEntity.status" name="status" fullWidth id="inputStatus" placeholder="Status">
+                  </div>
+                </div>
+              </div>
+              <button class="d-flex align-items-end flex-column" type="submit" nbButton>Submit</button>
+            </form>
+          </nb-accordion-item-body>
+        </nb-accordion-item>
+      </nb-accordion>
+    </div>
+  </nb-card>
+  <nb-card>
+    <nb-card-header>PurchaseOrder List</nb-card-header>
+    <nb-card-body>
+      <ng2-smart-table [settings]="settings" (userRowSelect)="onClickEvent($event)"
+                       (deleteConfirm)="onDeleteConfirm($event)" (custom)="onCustomAction($event)" [source]="source"></ng2-smart-table>
+    </nb-card-body>
+  </nb-card>
+</div>

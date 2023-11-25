@@ -1,0 +1,142 @@
+<div *nbIsGranted="['product', 'create']" class="row">
+  <div class="col-md-10">
+    <nb-card [size]="'giant'">
+      <nb-card-header>Create Product</nb-card-header>
+      <nb-card-body>
+        <form (ngSubmit)="create()" #f="ngForm" class="form-horizontal">
+          <div class="form-group row">
+            <div class="col-sm-4">
+              <label for="inputName" class="label col-sm-0 col-form-label">Name</label>
+              <input type="text" nbInput fullWidth id="inputName" name="name" required [(ngModel)]="product.name" >
+            </div>
+            <div class="col-sm-4">
+              <label for="inputCategory" class="label col-sm-0 col-form-label">Category</label>
+              <nb-select required name="category" [(ngModel)]="product.category"   id="inputCategory" outline
+                         [outline]="true"  [hero]="true" fullWidth class="type-select">
+                <nb-option *ngFor="let category of categories | async" [value]="category.name">
+                  <span >{{category.name}}</span>
+                </nb-option>
+              </nb-select>
+            </div>
+            <div class="col-sm-4">
+              <label for="inputCode" class="label col-sm-0 col-form-label">Code</label>
+              <input type="text" nbInput fullWidth id="inputCode" name="code" [(ngModel)]="product.code" >
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-4">
+              <label for="inputQuantity" class="label col-sm-0 col-form-label">Quantity</label>
+              <input type="number" nbInput fullWidth id="inputQuantity" name="quantity" [(ngModel)]="product.quantity" >
+            </div>
+            <div class="col-sm-4">
+              <label for="inputUnit" class="label col-sm-0 col-form-label">Unit</label>
+              <nb-select required name="unit" [(ngModel)]="product.unit"   id="inputUnit" outline
+                         [outline]="true"  [hero]="true" fullWidth class="type-select">
+                <nb-option *ngFor="let unit of units | async" [value]="unit.name">
+                  <span >{{unit.name}}</span>
+                </nb-option>
+              </nb-select>
+            </div>
+            <div class="col-sm-4">
+              <label for="inputBrand" class="label col-sm-0 col-form-label">Brand</label>
+              <input type="text" nbInput fullWidth id="inputBrand" name="brand" [(ngModel)]="product.brand" >
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-4">
+              <label for="inputPrice" class="label col-sm-0 col-form-label">Price</label>
+              <input type="number" required nbInput fullWidth id="inputPrice" name="unitPrice" [(ngModel)]="product.unitPrice" >
+            </div>
+            <div class="col-sm-4">
+              <label for="inputDiscount" class="label col-sm-0 col-form-label">Discount</label>
+              <input type="number" nbInput fullWidth id="inputDiscount" name="discount" [(ngModel)]="product.discount" >
+            </div>
+            <div class="col-sm-4">
+              <label for="inputTax" class="label col-sm-0 col-form-label">Tax(%)</label>
+              <input type="number" nbInput fullWidth id="inputTax" name="taxInPercentage" [(ngModel)]="product.taxInPercentage" >
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-4">
+              <label for="inputManufacturedDate" class="label col-sm-0 col-form-label">Manufactured Date</label>
+              <input id ="inputManufacturedDate" nbInput fullWidth placeholder="Manufactured Date"
+                     name="manufacturedDate" [(ngModel)]="product.manufacturedDate" [nbDatepicker]="manufacturedDate">
+              <nb-datepicker #manufacturedDate></nb-datepicker>
+            </div>
+            <div class="col-sm-4">
+              <label for="inputExpiryDate" class="label col-sm-0 col-form-label">Expiry Date</label>
+              <input id ="inputExpiryDate" nbInput fullWidth placeholder="Expiry Date"
+                     name="expiryDate" [(ngModel)]="product.expiryDate" [nbDatepicker]="expiryDate">
+              <nb-datepicker #expiryDate></nb-datepicker>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-4">
+              <label for="inputWarehouseLabel" class="label col-sm-0 col-form-label">Warehouse</label>
+              <nb-checkbox id="inputWarehouseLabel" (checkedChange)="onCheckedWarehouse($event)" [checked]="false" >Enable</nb-checkbox>
+            </div>
+            <div class="col-sm-4" [style]="warehouseStyle">
+              <label for="inputWarehouse" class="label col-sm-0 col-form-label">Warehouse</label>
+              <input type="text" nbInput fullWidth id="inputWarehouse" name="warehouse" [(ngModel)]="product.warehouse" >
+            </div>
+            <div class="col-sm-4" [style]="warehouseStyle">
+              <label for="inputWarehousePrice" class="label col-sm-0 col-form-label">Unit Price (Warehouse)</label>
+              <input type="number" nbInput fullWidth id="inputWarehousePrice" name="warehousePrice" [(ngModel)]="product.warehousePrice" >
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-2">
+              <label >Status</label>
+              <nb-select *ngIf="statuses" required name="status" [(ngModel)]="product.status"   id="inputProduct0" outline
+                         [outline]="true"  [hero]="true" fullWidth class="type-select">
+                <nb-option *ngFor="let status of statuses" [value]="status.name">
+                  <span >{{status.name}}</span>
+                </nb-option>
+              </nb-select>
+            </div>
+          </div>
+
+          <div class="form-group  row">
+            <div class="col-sm-12">
+              <div>
+                <br/>
+                <div class="buttons-row">
+                  <button [disabled]="!(f.valid && f.dirty)" size="small" [status]="'primary'" nbButton outline>Create</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+
+  </div>
+  <div class="col-md-2">
+    <nb-card [size]="'giant'">
+      <nb-card-header>Product Image</nb-card-header>
+      <nb-card-body>
+        <div class="form-group row">
+          <div class="col-md-2">
+            <button (click)="file.click()" [status]="'primary'" size="tiny" nbButton outline>Upload</button>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <div *ngIf="originalProfilePic; else getNewPic" class="user center image-upload-container"
+                 [style.background-image]="'url(' + product.pictureUrl + ')'">
+            </div>
+            <ng-template #getNewPic>
+              <div class ="get-new-pic-div user center">
+                <img class="user" [src]="filePreview" />
+              </div>
+            </ng-template>
+            <div>
+              <input #file type="file" [hidden]="true" accept="image/*" (change)="processProfilePicture($event);">
+            </div>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+
+</div>

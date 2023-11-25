@@ -1,0 +1,110 @@
+<div *nbIsGranted="['setting', 'view']">
+  <div *ngIf="settingRequest.requestStatus === 'Pending'" class="row">
+    <div class="col-lg-12" *nbIsGranted="['unit', 'access']">
+      <nb-card>
+        <nb-accordion multi>
+          <nb-accordion-item>
+            <nb-accordion-item-header>Permission Needed</nb-accordion-item-header>
+            <nb-accordion-item-body>
+              <div class="full-name-inputs">
+                <button fullWidth (click)="onPermission($event, APPROVE)" nbButton>Approve</button>
+                <button fullWidth (click)="onPermission($event, REJECT)" nbButton>Reject</button>
+              </div>
+            </nb-accordion-item-body>
+          </nb-accordion-item>
+        </nb-accordion>
+      </nb-card>
+    </div>
+  </div>
+  <div class="row">
+  <div class="col-md-8">
+    <nb-card [size]="'giant'">
+      <nb-card-header>Performance Setting Request Information</nb-card-header>
+      <nb-card-body>
+        <form>
+          <div class="form-group row">
+            <label for="requestId" class="label col-sm-3 col-form-label">Request Id</label>
+            <div class="col-sm-9">
+              <input type="text" [value]="settingRequest.requestId" disabled nbInput fullWidth id="requestId">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputName" class="label col-sm-3 col-form-label">Name</label>
+            <div class="col-sm-9">
+              <input type="text" disabled nbInput fullWidth id="inputName" [value]="settingRequest.name">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputStaffPeriod" class="label col-sm-3 col-form-label">Staff Period</label>
+            <div class="col-sm-9">
+              <input type="text" [value]="settingRequest.staffPeriod" disabled nbInput id="inputStaffPeriod">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputStatus" class="label col-sm-3 col-form-label">Staff Start</label>
+            <div class="col-sm-9">
+              <input type="text" [value]="settingRequest.staffStartTime  | date:'dd/MM/yyyy hh:mm:ss a'" disabled nbInput fullWidth id="inputStatus">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputStaffStop" class="label col-sm-3 col-form-label">Staff Stop</label>
+            <div class="col-sm-9">
+              <input type="text" [value]="settingRequest.staffStopTime  | date:'dd/MM/yyyy hh:mm:ss a'" disabled nbInput fullWidth id="inputStaffStop">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputStatus" class="label col-sm-3 col-form-label">Request Status</label>
+            <div class="col-sm-9">
+              <input type="text" [value]="settingRequest.requestStatus" disabled nbInput fullWidth id="requestStatus">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label  class="label col-sm-3 col-form-label">Request Type</label>
+            <div class="col-sm-9">
+              <input type="text" [value]="settingRequest.requestType" disabled nbInput fullWidth id="requestType" >
+            </div>
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+
+  </div>
+
+  <div class="col-md-4">
+
+    <nb-card>
+      <nb-card-header>Audit Information</nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="inputFirstName" class="label">Created By</label>
+              <input type="text" disabled nbInput fullWidth id="inputFirstName" value="{{settingRequest.createdBy}}">
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="inputLastName" class="label">Created Date</label>
+              <input type="text" disabled nbInput fullWidth id="inputLastName" value="{{settingRequest.createdDate | date:'fullDate'}}">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="inputEmail" class="label">Modified By</label>
+              <input type="text" disabled nbInput fullWidth id="inputEmail" value="{{settingRequest.modifiedBy}}">
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="inputWebsite" class="label">Modified Date</label>
+              <input type="text" nbInput  disabled fullWidth id="inputWebsite" value="{{settingRequest.modifiedDate | date:'fullDate'}}">
+            </div>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+</div>

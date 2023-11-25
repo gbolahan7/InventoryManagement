@@ -1,0 +1,91 @@
+<div *nbIsGranted="['user', 'operation']">
+
+  <div class="row">
+    <div class="col-md-4">
+      <nb-card class="list-card" size="medium">
+        <nb-card-header>User</nb-card-header>
+        <nb-list>
+          <nb-list-item (click)="fetchUser(user)" class="list-cursor" *ngFor="let user of users">
+            <nb-user [name]="user.username.split(' ').join(' ').trim() | ngxCapitalize" size="giant"
+                     [title]="user.email"  [badgeText]="user.status | ngxCapitalize"
+                     [badgeStatus]="user.status === 'ACTIVE' ? 'primary' : 'danger'"
+                     [badgePosition]="'bottom left'"
+            >
+            </nb-user>
+          </nb-list-item>
+        </nb-list>
+      </nb-card>
+    </div>
+
+    <div class="col-md-8">
+      <nb-card size="medium" *ngIf="operation === 'view' && !!user">
+        <nb-card-header>View User</nb-card-header>
+        <nb-card-body>
+          <form>
+            <div class="form-group">
+              <label for="roleName" class="label">UserName</label>
+              <input type="text" nbInput disabled fullWidth id="roleName" [value]="user.username">
+            </div>
+            <div class="form-group">
+              <label for="userEmail" class="label">Email</label>
+              <input type="email" nbInput disabled fullWidth id="userEmail" [value]="user.email">
+            </div>
+            <div class="form-group">
+              <label for="userRole" class="label">Role</label>
+              <input type="text" nbInput disabled fullWidth id="userRole" [value]="user.role.name.split('_').join(' ').trim() | ngxCapitalize">
+            </div>
+            <div class="form-group">
+              <label for="userStatus" class="label">Status</label>
+              <nb-select disabled [selected]="user.status"  size="small"  id="userStatus" outline [hero]="true" fullWidth class="type-select">
+                <nb-option *ngFor="let status of statuses" [value]="status.key">
+                  <span >{{status.value}}</span>
+                </nb-option>
+              </nb-select>
+            </div>
+          </form>
+          <div class="form-group">
+            <button *ngIf="operation === 'view' && !!user" (click)="onEditClick()" size="small" [status]="'primary'" nbButton
+                    outline>Modify
+            </button>
+          </div>
+        </nb-card-body>
+      </nb-card>
+      <nb-card size="medium" *ngIf="operation === 'modify' && !!user ">
+        <nb-card-header>Modify User</nb-card-header>
+        <nb-card-body>
+          <form (ngSubmit)="modify()" #f="ngForm">
+            <div class="form-group">
+              <label for="roleNameModify" class="label">UserName</label>
+              <input type="text" nbInput fullWidth disabled id="roleNameModify" name="username" [(ngModel)]="user.username">
+            </div>
+            <div class="form-group">
+              <label for="inputEmailModify" class="label">User Email</label>
+              <input type="email" nbInput fullWidth required disabled id="inputEmailModify" name="email" [(ngModel)]="user.email">
+            </div>
+            <div class="form-group">
+              <label for="userStatusModify" class="label">Status</label>
+              <nb-select name="status" required  [status]="user.status === 'ACTIVE' ? 'primary' : 'danger'"
+                         [(ngModel)]="user.status"  size="small"  id="userStatusModify" outline [hero]="true" fullWidth class="type-select">
+                <nb-option *ngFor="let status of statuses" [value]="status.key">
+                  <span >{{status.value | ngxCapitalize}}</span>
+                </nb-option>
+              </nb-select>
+            </div>
+            <div class="form-group">
+              <label for="userRoleModify" class="label">Role</label>
+              <nb-select name="role" required
+                         [(ngModel)]="user.role.id"  size="small"  id="userRoleModify" outline [hero]="true" fullWidth class="type-select">
+                <nb-option *ngFor="let role of roles" [value]="role.id">
+                  <span >{{role.name.split('_').join(' ').trim() | ngxCapitalize}}</span>
+                </nb-option>
+              </nb-select>
+            </div>
+            <div class="form-group">
+            </div>
+            <button [disabled]="!(f.valid && f.dirty)" size="small" [status]="'primary'" nbButton outline>Update</button>
+          </form>
+        </nb-card-body>
+      </nb-card>
+    </div>
+  </div>
+</div>

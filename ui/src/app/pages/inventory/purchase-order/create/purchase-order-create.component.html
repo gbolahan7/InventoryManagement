@@ -1,0 +1,57 @@
+<div *nbIsGranted="['purchase_order', 'create']" class="row">
+  <div class="col-md-3">
+    <nb-card [size]="'giant'">
+      <nb-card-header>Create PurchaseOrder</nb-card-header>
+      <nb-card-body>
+        <form (ngSubmit)="create()" #f="ngForm">
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label for="inputDescription" class="col-sm-0 label">Description</label>
+              <textarea id="inputDescription" name="description" required [(ngModel)]="purchaseOrder.description" rows="5" nbInput fullWidth shape="round" ></textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label for="inputpurchasedDate" class="label col-sm-0 col-form-label">Purchased Date</label>
+              <input id ="inputpurchasedDate" nbInput fullWidth placeholder="Purchased Date"
+                     name="purchasedDate" [(ngModel)]="purchaseOrder.purchasedDate" [nbDatepicker]="purchasedDate">
+              <nb-datepicker #purchasedDate></nb-datepicker>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-12">
+              <label >Status</label>
+              <nb-select *ngIf="statuses" required name="status" [(ngModel)]="purchaseOrder.status"   id="inputPurchaseOrder0" outline
+                         [outline]="true"  [hero]="true" fullWidth class="type-select">
+                <nb-option *ngFor="let status of statuses" [value]="status.name">
+                  <span >{{status.name}}</span>
+                </nb-option>
+              </nb-select>
+            </div>
+          </div>
+
+          <div class="form-group  row">
+            <div class="col-sm-12">
+              <div>
+                <br/>
+                <div class="buttons-row">
+                  <button [disabled]="!(f.valid && f.dirty)" size="small" [status]="'primary'" nbButton outline>Create</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+
+  </div>
+  <div class="col-md-9">
+    <nb-card [size]="'giant'">
+      <nb-card-header>PurchaseOrder Items</nb-card-header>
+      <nb-card-body>
+        <ng2-smart-table [settings]="itemSettings" (createConfirm)="itemCreate($event)" [source]="itemSource" (deleteConfirm)="itemDelete($event)"></ng2-smart-table>
+      </nb-card-body>
+    </nb-card>
+
+  </div>
+</div>

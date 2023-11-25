@@ -1,0 +1,67 @@
+<div class="row" *nbIsGranted="['setting', 'view']">
+  <div class="col-md-8">
+    <nb-card [size]="'giant'">
+      <nb-card-header>Performance Setting Audit Detail</nb-card-header>
+      <nb-card-body>
+        <form>
+          <div class="form-group row">
+            <label for="inputId" class="label col-sm-3 col-form-label">ID</label>
+            <div class="col-sm-9">
+              <input type="text" [value]="performanceSettingAudit.entity.id" disabled nbInput fullWidth id="inputId">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputName" class="label col-sm-3 col-form-label">Name</label>
+            <div class="col-sm-9">
+              <input type="text" disabled nbInput fullWidth id="inputName" [value]="performanceSettingAudit.entity.name">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputStatus" class="label col-sm-3 col-form-label">Status</label>
+            <div class="col-sm-9">
+              <input type="text" [value]="performanceSettingAudit.entity?.staffPeriod" disabled nbInput fullWidth id="inputStatus">
+            </div>
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+
+  </div>
+
+  <div class="col-md-4">
+
+    <nb-card>
+      <nb-card-header>Audit Information</nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="inputFirstName" class="label">Created By</label>
+              <input type="text" disabled nbInput fullWidth id="inputFirstName" value="{{performanceSettingAudit.entity.createdBy}}">
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="inputLastName" class="label">Revision Date</label>
+              <input type="text" disabled nbInput fullWidth id="inputLastName" value="{{performanceSettingAudit.revisionDate | date:'fullDate'}}">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="inputEmail" class="label">Revision Type</label>
+              <input type="text" disabled nbInput fullWidth id="inputEmail" value="{{performanceSettingAudit.revisionType}}">
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="inputWebsite" class="label">Modified Id</label>
+              <input type="text" nbInput  disabled fullWidth id="inputWebsite" value="{{performanceSettingAudit.revisionId}}">
+            </div>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

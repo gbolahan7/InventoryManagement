@@ -1,0 +1,126 @@
+<div *nbIsGranted="['role', 'operation']">
+
+  <div class="row">
+    <div class="col-md-8">
+      <nb-card class="list-card" size="medium">
+        <nb-card-header>Roles</nb-card-header>
+        <nb-list>
+          <nb-list-item (click)="fetchRole(role)" class="list-cursor" *ngFor="let role of roles">
+            <nb-user [name]="role.name.split('_').join(' ').trim() | ngxCapitalize" size="giant"
+                     [title]="role.description | truncate">
+            </nb-user>
+          </nb-list-item>
+        </nb-list>
+        <nb-card-footer>
+          <button *ngIf="operation !== 'create'" (click)="onNewClick()" size="small" [status]="'primary'" nbButton
+                  outline>New
+          </button>
+        </nb-card-footer>
+      </nb-card>
+    </div>
+
+    <div class="col-md-4">
+      <nb-card size="medium" *ngIf="operation === 'view' && !!role">
+        <nb-card-header>View Role</nb-card-header>
+        <nb-card-body>
+          <form>
+            <div class="form-group">
+              <label for="roleName" class="label">Role Name</label>
+              <input type="text" nbInput disabled fullWidth id="roleName" [value]="role.name">
+            </div>
+            <div class="form-group">
+              <label for="inputDescription" class="label">Role Description</label>
+              <textarea id="inputDescription" disabled name="description" [value]="role.description" rows="5" nbInput
+                        fullWidth shape="round"></textarea>
+            </div>
+          </form>
+          <div class="form-group">
+            <button *ngIf="operation === 'view' && !!role && isNotExcluded(role.name)" (click)="onEditClick()" size="small" [status]="'primary'" nbButton
+                    outline>Modify
+            </button>
+          </div>
+        </nb-card-body>
+      </nb-card>
+      <nb-card size="medium" *ngIf="operation === 'create'">
+        <nb-card-header>Create Role</nb-card-header>
+        <nb-card-body>
+          <form (ngSubmit)="create()" #f="ngForm">
+            <div class="form-group">
+              <label for="roleNameCreate" class="label">Role Name</label>
+              <input type="text" nbInput fullWidth id="roleNameCreate" name="name" required [(ngModel)]="role.name">
+            </div>
+            <div class="form-group">
+              <label for="inputDescriptionCreate" class="label">Role Description</label>
+              <textarea id="inputDescriptionCreate" name="description" required [(ngModel)]="role.description" rows="5"
+                        nbInput fullWidth shape="round"></textarea>
+            </div>
+            <div class="form-group">
+            </div>
+            <button [disabled]="!(f.valid && f.dirty)" size="small" [status]="'primary'" nbButton outline>Create
+            </button>
+          </form>
+        </nb-card-body>
+      </nb-card>
+      <nb-card size="medium" *ngIf="operation === 'modify' && !!role && isNotExcluded(role.name)">
+        <nb-card-header>Modify Role</nb-card-header>
+        <nb-card-body>
+          <form (ngSubmit)="modify()" #f="ngForm">
+            <div class="form-group">
+              <label for="roleNameModify" class="label">Role Name</label>
+              <input type="text" nbInput fullWidth disabled id="roleNameModify" name="name" [(ngModel)]="role.name">
+            </div>
+            <div class="form-group">
+              <label for="inputDescriptionModify" class="label">Role Description</label>
+              <textarea id="inputDescriptionModify" name="description" required [(ngModel)]="role.description" rows="5"
+                        nbInput fullWidth shape="round"></textarea>
+            </div>
+            <div class="form-group">
+            </div>
+            <button [disabled]="!(f.valid && f.dirty)" size="small" [status]="'primary'" nbButton outline>Update
+            </button>
+          </form>
+        </nb-card-body>
+      </nb-card>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <nb-card *ngIf="operation === 'view'  && !!role">
+        <nb-card-header>View {{role.name.split('_').join(' ').trim() | ngxCapitalize}} Permissions</nb-card-header>
+        <nb-card-body>
+            <div class="col-md-12">
+              <nb-button-group disabled style="display:inline-block" class="list-card" size="small">
+                <ng-container *ngFor="let permission of role.permissions">
+                  <button nbButtonToggle pressed>{{permission}}</button>
+                </ng-container>
+              </nb-button-group>
+            </div>
+        </nb-card-body>
+      </nb-card>
+      <nb-card *ngIf="operation === 'create'">
+        <nb-card-header>Attach New Permissions</nb-card-header>
+        <nb-card-body>
+          <div class="col-md-12">
+            <nb-button-group  outline style="display:inline-block" multiple class="list-card" size="small">
+              <ng-container *ngFor="let permission of availablePermissions">
+                <button nbButtonToggle [pressed]="isPressed(permission)"  (pressedChange)="checkPermission($event, permission)">{{permission}}</button>
+              </ng-container>
+            </nb-button-group>
+          </div>
+        </nb-card-body>
+      </nb-card>
+      <nb-card *ngIf="operation === 'modify' && !!role && isNotExcluded(role.name)">
+        <nb-card-header>Modify {{role.name.split('_').join(' ').trim() | ngxCapitalize}} Permissions</nb-card-header>
+        <nb-card-body>
+          <div class="col-md-12">
+            <nb-button-group  outline style="display:inline-block" multiple class="list-card" size="small">
+              <ng-container *ngFor="let permission of availablePermissions">
+                <button nbButtonToggle [pressed]="isPressed(permission)" (pressedChange)="checkPermission($event, permission)">{{permission}}</button>
+              </ng-container>
+            </nb-button-group>
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </div>
+  </div>
+</div>

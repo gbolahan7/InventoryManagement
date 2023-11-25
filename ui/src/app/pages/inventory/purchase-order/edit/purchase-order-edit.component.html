@@ -1,0 +1,55 @@
+<div *nbIsGranted="['purchase_order', 'modify']" class="row">
+  <div class="col-md-3">
+    <nb-card [size]="'giant'">
+      <nb-card-header>Edit PurchaseOrder</nb-card-header>
+      <nb-card-body>
+        <form (ngSubmit)="edit()" #f="ngForm">
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label for="inputDescription" class="col-sm-0 label">Description</label>
+              <textarea id="inputDescription" name="description" disabled [value]="purchaseOrder.description" rows="5" nbInput fullWidth shape="round" ></textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label for="inputpurchasedDate" class="label col-sm-0 col-form-label">Purchased Date</label>
+              <input id ="inputpurchasedDate" nbInput fullWidth placeholder="Purchased Date" name="purchasedDate" [value]="purchaseOrder.purchasedDate" disabled>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-12">
+              <label >Status</label>
+              <nb-select *ngIf="statuses" [disabled]="purchaseOrder.status === 'Paid'  && !f.dirty" required name="status" [(ngModel)]="purchaseOrder.status"   id="inputPurchaseOrder0" outline
+                         [outline]="true"  [hero]="true" fullWidth class="type-select">
+                <nb-option *ngFor="let status of statuses" [value]="status.name">
+                  <span >{{status.name}}</span>
+                </nb-option>
+              </nb-select>
+            </div>
+          </div>
+
+          <div class="form-group  row">
+            <div class="col-sm-12">
+              <div>
+                <br/>
+                <div class="buttons-row">
+                  <button [disabled]="!(f.valid && f.dirty)" size="small" [status]="'primary'" nbButton outline>Update</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+
+  </div>
+  <div class="col-md-9">
+    <nb-card [size]="'giant'">
+      <nb-card-header>PurchaseOrder Items</nb-card-header>
+      <nb-card-body>
+        <ng2-smart-table [settings]="itemSettings"  [source]="itemSource"></ng2-smart-table>
+      </nb-card-body>
+    </nb-card>
+
+  </div>
+</div>
